@@ -8,7 +8,6 @@ export default class extends React.Component {
     super(props);
     this.state = {
       story: props.res.data.story,
-      language: props.language,
     };
   }
 
@@ -21,7 +20,6 @@ export default class extends React.Component {
 
     return {
       res,
-      language,
     };
   }
 
@@ -33,7 +31,7 @@ export default class extends React.Component {
     const contentOfStory = this.state.story.content;
 
     return (
-      <Layout language={this.state.language}>
+      <Layout>
         <BlogPost blok={contentOfStory} />
       </Layout>
     );

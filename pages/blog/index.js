@@ -38,18 +38,15 @@ export default class extends React.Component {
 
           <ul>
             {posts.map((post) => (
-              <li className="max-w-4xl px-10 my-4 py-6 rounded-lg shadow-md bg-white">
+              <li className="max-w-4xl px-10 my-4 py-6 rounded-lg shadow-md bg-gray-300 dark:bg-white" key={post.id}>
                 <div className="flex justify-between items-center">
-                  <span className="font-light text-gray-600">
-                    {`
-                    ${new Date(post.created_at).getDay()}.
-                    ${new Date(post.created_at).getMonth()}.
-                    ${new Date(post.created_at).getFullYear()}`}
+                  <span className="dark:text-gray-700">
+                    {`${new Date(post.created_at).toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`}
                   </span>
                 </div>
                 <div className="mt-2">
                   <a
-                    className="text-2xl text-gray-700 font-bold hover:text-gray-600"
+                    className="text-2xl dark:text-gray-700 font-bold hover:text-gray-600"
                     href={`/${post.full_slug}`}
                   >
                     {post.content.title}

@@ -70,12 +70,12 @@ const Navigation = ({ settings }) => {
             <p className="text-lg flex items-centered justify-between">
               Cara,{' '}
               <span
-                onClick={switchTheme}
                 className="relative inline-block w-10 align-middle select-none transition duration-200 ease-in"
               >
                 <input
                   type="checkbox"
-                  defaultChecked={theme === 'dark'}
+                  checked={theme === 'dark'}
+                  onChange={switchTheme}
                   name="toggle"
                   id="toggle"
                   className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer outline-none"

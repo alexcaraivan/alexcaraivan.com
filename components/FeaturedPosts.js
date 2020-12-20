@@ -11,20 +11,18 @@ const FeaturedPosts = ({ blok }) => {
         </div>
         <ul className="flex">
           {blok.posts.map((post) => {
-            const lang = post.lang === 'default' ? 'en' : post.lang;
-
-            return (
-              <li key={post.content._uid} className="pr-8 w-1/3">
+            return post.content ? (
+              <li key={post.content._uid} className="mt-16 mr-8 border">
                 <a
-                  href={`/${lang}/blog/${post.slug}`}
-                  className="py-16 block transition hover:opacity-50"
+                  href={`/blog/${post.slug}`}
+                  className="block transition hover:opacity-50 p-8 w-80"
                 >
-                  <img src={post.content.image} className="pb-10 w-full" />
+                  <img src={post.content.image} className="pb-10 w-full h-60" />
                   <h2 className="pb-6 text-lg font-bold">{post.content.title}</h2>
-                  <p className="pb-6 text-gray-700 leading-loose">{post.content.intro}</p>
+                  <p className="pb-6 leading-loose">{post.content.intro}</p>
                 </a>
               </li>
-            );
+            ) : null;
           })}
         </ul>
       </div>

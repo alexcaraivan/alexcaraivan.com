@@ -1,20 +1,6 @@
-import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
-
-const Navigation = ({ settings }) => {
-  const [isMounted, setIsMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-  const switchTheme = () => {
-    if (isMounted) {
-      setTheme(theme === 'light' ? 'dark' : 'light');
-    }
-  };
-
+const Navigation = () => {
   return (
-    <header className="w-full bg-gray-300 dark:bg-gray-800 dark:text-white">
+    <header className="w-full bg-gray-800 text-white">
       <nav className="" role="navigation">
         <div className="container mx-auto p-4 flex flex-wrap items-center md:flex-nowrap">
           <div className="mr-4 md:mr-8">
@@ -29,7 +15,7 @@ const Navigation = ({ settings }) => {
               >
                 <g
                   transform="translate(0.000000,994.0000) scale(0.100000,-0.100000)"
-                  fill={theme === 'light' ? '#000' : '#fff'}
+                  fill="#fff"
                   stroke="none"
                 >
                   <path
@@ -66,28 +52,6 @@ const Navigation = ({ settings }) => {
               </svg>
             </a>
           </div>
-          <div>
-            <p className="text-lg flex items-centered justify-between">
-              Cara,{' '}
-              <span
-                className="relative inline-block w-10 align-middle select-none transition duration-200 ease-in"
-              >
-                <input
-                  type="checkbox"
-                  checked={theme === 'dark'}
-                  onChange={switchTheme}
-                  name="toggle"
-                  id="toggle"
-                  className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer outline-none"
-                />
-                <label
-                  htmlFor="toggle"
-                  className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-100 dark:bg-gray-300 cursor-pointer"
-                ></label>
-              </span>
-            </p>
-            <p>Digitally Yours</p>
-          </div>
           <div className="ml-auto md:hidden">
             <button className="flex items-center px-3 py-2 border rounded" type="button">
               <svg className="h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -106,6 +70,11 @@ const Navigation = ({ settings }) => {
               <li>
                 <a href="/blog" className="block px-4 py-1 md:p-2 lg:px-8">
                   Blog
+                </a>
+              </li>
+              <li>
+                <a href="/draw" className="block px-4 py-1 md:p-2 lg:px-8">
+                  Draw
                 </a>
               </li>
             </ul>

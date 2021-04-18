@@ -8,7 +8,7 @@ class MyDocument extends Document {
         <Head>
           <link rel="shortcut icon" href="/favicon.svg" />
         </Head>
-        <body className="bg-white text-black dark:bg-black dark:text-white">
+        <body className="bg-black text-white">
           <Main />
           <NextScript />
         </body>

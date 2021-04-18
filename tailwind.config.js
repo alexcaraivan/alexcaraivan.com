@@ -1,6 +1,5 @@
 module.exports = {
   purge: [],
-  darkMode: 'class',
   theme: {
     fontFamily: {
       'sans': 'Roboto, Arial, sans-serif',

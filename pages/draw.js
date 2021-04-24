@@ -2,6 +2,7 @@ import Layout from '@components/Layout';
 import { fetchPhotos } from '../utils/cloudinary-service';
 import {CloudinaryContext} from 'cloudinary-react';
 import Card from '../components/Card';
+import Upload from '../components/Upload';
 
 const cloudName = 'diumpjpz6';
 
@@ -10,6 +11,7 @@ function Draw({photos}) {
     <Layout>
       <CloudinaryContext cloudName={cloudName}>
         <h1 className="text-center text-4xl pt-6">Nina Draws Images</h1>
+        <Upload />
         <div className="container my-12 mx-auto px-4 md:px-12">
           <div className="flex flex-wrap -mx-1 lg:-mx-4">
             {photos.map((photo) => (

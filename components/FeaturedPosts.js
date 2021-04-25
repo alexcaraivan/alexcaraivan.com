@@ -13,10 +13,10 @@ const FeaturedPosts = ({ blok }) => {
             post.content ? (
               <li key={post.content._uid} className="overflow-hidden rounded-lg bg-gray-700 flex flex-col justify-between">
                 <a href={`/blog/${post.slug}`} className="block transition hover:opacity-50">
-                  <img src={post.content.image} className="w-full"/>
-                  <div className="p-8">
-                    <h2 className="pb-4 text-2xl font-bold">{post.content.title}</h2>
-                    <p className="leading-loose">{post.content.intro}</p>
+                  <img src={post.content.image} className="w-full border-b border-gray-500"/>
+                  <div className="p-4">
+                    <h2 className="pb-2 text-lg font-bold">{post.content.title}</h2>
+                    <p>{post.content.intro}</p>
                   </div>
                 </a>
               </li>

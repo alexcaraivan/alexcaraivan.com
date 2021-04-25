@@ -1,37 +1,97 @@
 import Layout from '@components/Layout';
-import { fetchPhotos } from '../utils/cloudinary-service';
-import {CloudinaryContext} from 'cloudinary-react';
+import { fetchPhotos, openUploadWidget } from '../utils/cloudinary-service';
+import { CloudinaryContext, Image, Placeholder } from 'cloudinary-react';
 import Card from '../components/Card';
-import Upload from '../components/Upload';
+import { useState, useEffect } from 'react';
 
 const cloudName = 'diumpjpz6';
 
-function Draw({photos}) {
+function Draw() {
+  const [images, setImages] = useState([]);
+  const [upload, setUpload] = useState(false);
+  const [alt, setAlt] = useState('');
+
+  const toggleUpload = () => {
+    setUpload(!upload);
+  };
+
+  useEffect(() => {
+    fetchPhotos(cloudName, setImages);
+  }, []);
+
+  const beginUpload = () => {
+    if (!alt) {
+      alert('please insert description');
+      return;
+    }
+    const uploadOptions = {
+      cloudName,
+      tags: ['nina-draws'],
+      uploadPreset: 'nina-draws',
+      context: `alt=${alt}`,
+    };
+    openUploadWidget(uploadOptions, (error, photos) => {
+      if (!error) {
+        console.log(photos);
+        if (photos.event === 'success') {
+          setImages([...images, {
+            id: photos.info.public_id,
+            alt: photos.info.context.custom.alt,
+            date: photos.created_at
+          }]);
+          setAlt('');
+          setUpload(false);
+        }
+      } else {
+        console.log(error);
+      }
+    });
+  };
+
+  const handleChange = (evt) => {
+    setAlt(evt.target.value);
+    console.log(evt.target.value);
+  };
+
   return (
     <Layout>
+      <script
+        src="https://widget.cloudinary.com/v2.0/global/all.js"
+        type="text/javascript"
+      ></script>
       <CloudinaryContext cloudName={cloudName}>
-        <h1 className="text-center text-4xl pt-6">Nina Draws Images</h1>
-        <Upload />
-        <div className="container my-12 mx-auto px-4 md:px-12">
-          <div className="flex flex-wrap -mx-1 lg:-mx-4">
-            {photos.map((photo) => (
-              <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3" key={photo.public_id}>
-                <Card {...photo}/>
-              </div>
-            ))}
+        <div className="container mx-auto">
+          <div className="flex items-center justify-center">
+            <h1 className="text-center text-4xl pt-6 pb-8">Nina Draws Images</h1>
+            <button className="bg-gray-100 rounded text-black ml-4 px-2" onClick={toggleUpload}>
+              Upload New
+            </button>
           </div>
+          {upload && (
+            <div className="flex justify-center my-8 pb-8">
+              <textarea
+                name="alt"
+                value={alt}
+                onChange={handleChange}
+                cols="40"
+                rows="2"
+                className="block text-black p-2 outline-none resize-none"
+                placeholder="description of image"
+              />
+              <button onClick={() => beginUpload()} className="bg-gray-100 text-black px-4 border">
+                Upload Image
+              </button>
+            </div>
+          )}
+          <section className="grid grid-cols-4 gap-4">
+            {images.map((image) => (
+              <Card key={image.id} {...image} />
+            ))}
+          </section>
         </div>
       </CloudinaryContext>
     </Layout>
   );
-}
-
-export async function getStaticProps() {
-  return {
-    props: {
-      photos: await fetchPhotos(cloudName),
-    },
-  };
 }
 
 export default Draw;

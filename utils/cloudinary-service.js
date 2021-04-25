@@ -15,7 +15,7 @@ export const openUploadWidget = (options, callback) => {
   window.cloudinary.openUploadWidget(options, callback);
 };
 
-export const fetchPhotos = (cloudName) => {
+export const fetchPhotos = (cloudName, setter) => {
   // instead of maintaining the list of images, we rely on the 'myphotoalbum' tag
   // and simply retrieve a list of all images with that tag.
   // the version property is used for cache bust (lists are cached by the CDN for 1 minute)
@@ -24,7 +24,7 @@ export const fetchPhotos = (cloudName) => {
   // for demonstration purposes only
   // *************************************************************************
   const options = {
-    cloudName: cloudName,
+    cloudName,
     format: 'json',
     type: 'list',
     version: Math.ceil(new Date().getTime() / 1000),
@@ -34,5 +34,15 @@ export const fetchPhotos = (cloudName) => {
 
   return fetch(urlPath)
     .then((res) => res.text())
-    .then((text) => (text ? JSON.parse(text).resources : []));
+    .then((text) => {
+      const res = text
+        ? JSON.parse(text).resources.map((image) => ({
+            id: image.public_id,
+            alt: image?.context?.custom?.alt || 'No description available.',
+            date: image.created_at,
+          }))
+        : [];
+      return setter(res);
+    })
+    .catch((err) => console.log(err));
 };

@@ -6,9 +6,9 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <link rel="shortcut icon" href="/favicon.svg" />
+          <link rel="shortcut icon" href="/images/logo.png" />
         </Head>
-        <body className="bg-black text-white">
+        <body className="bg-gray-800 text-white">
           <Main />
           <NextScript />
         </body>

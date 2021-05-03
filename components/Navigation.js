@@ -21,7 +21,9 @@ const Navigation = () => {
             <a href="/blog" className="px-6">
               Blog
             </a>
-            <a href="/draw">Draw</a>
+            <a href="/draw" className="pr-6">
+              Draw
+            </a>
             <a href="/work">Work</a>
           </div>
         </div>

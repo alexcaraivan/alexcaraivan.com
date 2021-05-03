@@ -16,12 +16,15 @@ const options = { year: 'numeric', month: 'short', day: 'numeric' };
 
 const formatDate = (d) => d.toLocaleDateString('en-US', options);
 
+const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
 function Work() {
   const [normal, setNormal] = useState([]);
   const [overtime, setOvertime] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hours, setHours] = useState('');
   const [update, setUpdate] = useState(null);
+  const [otDay, setOtDay] = useState(0);
 
   useEffect(() => {
     let n = [],
@@ -34,9 +37,12 @@ function Work() {
       .limit(14)
       .get()
       .then((querySnapshot) => {
+        const dayOfWeek = new Array(7).fill(0);
+
         querySnapshot.forEach((doc) => {
           const d = doc.data();
           const day = formatDate(d.day.toDate());
+
           n.push({
             id: doc.id,
             x: day,
@@ -47,8 +53,13 @@ function Work() {
             x: day,
             y: d.hours > 8 ? d.hours - 8 : 0,
           });
+
+          dayOfWeek[new Date(day).getDay()] += d.hours;
         });
 
+        const max = Math.max(...dayOfWeek);
+
+        setOtDay(dayOfWeek.indexOf(max));
         setNormal(n);
         setOvertime(o);
         setLoading(false);
@@ -120,7 +131,7 @@ function Work() {
           <VerticalBarSeries data={overtime} color="#CD5700" onValueClick={edit} />
         </XYPlot>
       </div>
-      <p className="text-center pb-6">You like to work more on: Tuesdays</p>
+      <p className="text-center pb-6">You like to work more on: {daysOfWeek[otDay]}</p>
       <div className="flex items-center justify-center">
         <input
           name="hours"

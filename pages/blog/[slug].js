@@ -1,39 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Layout from '@components/Layout';
 import BlogPost from '@components/BlogPost';
 import StoryblokService from '@utils/storyblok-service';
+import { useAuth } from '../../lib/auth';
+import { useRouter } from 'next/router';
 
-export default class extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      story: props.res.data.story,
-    };
+function Post({ content }) {
+  const router = useRouter();
+  const { user, loading } = useAuth();
+  if (!loading && !user) {
+    router.push('/');
   }
 
-  static async getInitialProps({ asPath, query }) {
-    StoryblokService.setQuery(query);
-
-    let language = query.language || 'en';
-    let trimDefault = asPath.replace('/en/blog', '/blog');
-    let res = await StoryblokService.get(`cdn/stories${trimDefault}`);
-
-    return {
-      res,
-    };
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     StoryblokService.initEditor(this);
-  }
+  }, []);
 
-  render() {
-    const contentOfStory = this.state.story.content;
-
-    return (
+  return (
+    user && (
       <Layout>
-        <BlogPost blok={contentOfStory} />
+        <BlogPost blok={content} />
       </Layout>
-    );
-  }
+    )
+  );
 }
+
+Post.getInitialProps = async ({ asPath, query }) => {
+  StoryblokService.setQuery(query);
+
+  let trimDefault = asPath.replace('/en/blog', '/blog');
+  let res = await StoryblokService.get(`cdn/stories${trimDefault}`);
+
+  return {
+    content: res.data.story.content,
+  };
+};
+
+export default Post;

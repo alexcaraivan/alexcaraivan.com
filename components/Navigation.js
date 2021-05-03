@@ -1,4 +1,10 @@
+import { useAuth } from '../lib/auth';
+
+import { FiLogOut } from 'react-icons/fi';
+
 const Navigation = () => {
+  const { signout } = useAuth();
+
   return (
     <header className="w-full bg-gray-900 text-white">
       <nav className="" role="navigation">
@@ -16,15 +22,18 @@ const Navigation = () => {
               </svg>
             </button>
           </div>
-          <div className="flex flex-col md:flex-row md:items-end">
+          <div className="flex flex-col md:flex-row md:items-center">
             <a href="/">Home</a>
             <a href="/blog" className="px-6">
               Blog
             </a>
-            <a href="/draw" className="pr-6">
-              Draw
+            <a href="/draw">Draw</a>
+            <a href="/work" className="px-6">
+              Work
             </a>
-            <a href="/work">Work</a>
+            <a onClick={() => signout()} className="cursor-pointer">
+              <FiLogOut />
+            </a>
           </div>
         </div>
       </nav>

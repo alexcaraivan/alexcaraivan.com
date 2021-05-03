@@ -9,8 +9,10 @@ import {
   VerticalBarSeries,
   LabelSeries,
 } from 'react-vis';
-import fire from '../config/fire-config';
+import firebase from '../lib/firebase';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useAuth } from '../lib/auth';
 
 const options = { year: 'numeric', month: 'short', day: 'numeric' };
 
@@ -19,9 +21,14 @@ const formatDate = (d) => d.toLocaleDateString('en-US', options);
 const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 function Work() {
+  const router = useRouter();
+  const { user, loading } = useAuth();
+  if (!loading && !user) {
+    router.push('/');
+  }
+
   const [normal, setNormal] = useState([]);
   const [overtime, setOvertime] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [hours, setHours] = useState('');
   const [update, setUpdate] = useState(null);
   const [otDay, setOtDay] = useState(0);
@@ -30,7 +37,7 @@ function Work() {
     let n = [],
       o = [];
 
-    fire
+    firebase
       .firestore()
       .collection('work-hours')
       .orderBy('day', 'asc')
@@ -62,16 +69,13 @@ function Work() {
         setOtDay(dayOfWeek.indexOf(max));
         setNormal(n);
         setOvertime(o);
-        setLoading(false);
       });
   }, []);
 
   const handleChange = (evt) => setHours(parseInt(evt.target.value));
 
   const addHours = () => {
-    console.log(update);
-    console.log(hours);
-    const c = fire.firestore().collection('work-hours');
+    const c = firebase.firestore().collection('work-hours');
 
     const promise = update
       ? c.doc(update.id).update({ hours })
@@ -119,35 +123,37 @@ function Work() {
   };
 
   return (
-    <Layout>
-      <h1 className="text-center text-4xl pt-6 pb-8">Caza's OT days</h1>
-      <div className="flex items-center justify-center">
-        <XYPlot margin={{ bottom: 70 }} width={600} height={300} stackBy="y" xType="ordinal">
-          <VerticalGridLines />
-          <HorizontalGridLines />
-          <XAxis tickLabelAngle={-45} />
-          <YAxis />
-          <VerticalBarSeries data={normal} color="#2E5090" onValueClick={edit} />
-          <VerticalBarSeries data={overtime} color="#CD5700" onValueClick={edit} />
-        </XYPlot>
-      </div>
-      <p className="text-center pb-6">You like to work more on: {daysOfWeek[otDay]}</p>
-      <div className="flex items-center justify-center">
-        <input
-          name="hours"
-          type="number"
-          min="1"
-          max="24"
-          placeholder="work hours"
-          className="px-4 py-2 border text-black w-32"
-          value={hours}
-          onChange={handleChange}
-        />
-        <button className="px-4 py-2 bg-white text-black border" onClick={addHours}>
-          {update ? `Update (${update.x})` : `Add (${formatDate(new Date())})`}
-        </button>
-      </div>
-    </Layout>
+    user && (
+      <Layout>
+        <h1 className="text-center text-4xl pt-6 pb-8">Caza's OT days</h1>
+        <div className="flex items-center justify-center">
+          <XYPlot margin={{ bottom: 70 }} width={600} height={300} stackBy="y" xType="ordinal">
+            <VerticalGridLines />
+            <HorizontalGridLines />
+            <XAxis tickLabelAngle={-45} />
+            <YAxis />
+            <VerticalBarSeries data={normal} color="#2E5090" onValueClick={edit} />
+            <VerticalBarSeries data={overtime} color="#CD5700" onValueClick={edit} />
+          </XYPlot>
+        </div>
+        <p className="text-center pb-6">You like to work more on: {daysOfWeek[otDay]}</p>
+        <div className="flex items-center justify-center">
+          <input
+            name="hours"
+            type="number"
+            min="1"
+            max="24"
+            placeholder="work hours"
+            className="px-4 py-2 border text-black w-32"
+            value={hours}
+            onChange={handleChange}
+          />
+          <button className="px-4 py-2 bg-white text-black border" onClick={addHours}>
+            {update ? `Update (${update.x})` : `Add (${formatDate(new Date())})`}
+          </button>
+        </div>
+      </Layout>
+    )
   );
 }
 

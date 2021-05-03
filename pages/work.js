@@ -32,6 +32,11 @@ function Work() {
   const [hours, setHours] = useState('');
   const [update, setUpdate] = useState(null);
   const [otDay, setOtDay] = useState(0);
+  const [width, setWidth] = useState(300);
+
+  useEffect(() => {
+    setWidth(window.innerWidth > 1280 ? 600 : window.innerWidth - 40);
+  }, []);
 
   useEffect(() => {
     let n = [],
@@ -125,9 +130,9 @@ function Work() {
   return (
     user && (
       <Layout>
-        <h1 className="text-center text-4xl pt-6 pb-8">Caza's OT days</h1>
+        <h1 className="text-center text-2xl md:text-4xl py-6">Caza's OT days</h1>
         <div className="flex items-center justify-center">
-          <XYPlot margin={{ bottom: 70 }} width={600} height={300} stackBy="y" xType="ordinal">
+          <XYPlot margin={{ bottom: 70 }} width={width} height={300} stackBy="y" xType="ordinal">
             <VerticalGridLines />
             <HorizontalGridLines />
             <XAxis tickLabelAngle={-45} />
@@ -136,7 +141,7 @@ function Work() {
             <VerticalBarSeries data={overtime} color="#CD5700" onValueClick={edit} />
           </XYPlot>
         </div>
-        <p className="text-center pb-6">You like to work more on: {daysOfWeek[otDay]}</p>
+        <p className="text-center py-6">You like to work more on: {daysOfWeek[otDay]}</p>
         <div className="flex items-center justify-center">
           <input
             name="hours"

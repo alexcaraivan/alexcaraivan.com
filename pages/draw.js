@@ -72,7 +72,7 @@ function Draw() {
         <CloudinaryContext cloudName={cloudName}>
           <div className="container mx-auto">
             <div className="flex items-center justify-center">
-              <h1 className="text-center text-4xl pt-6 pb-8">Nina Draws Images</h1>
+              <h1 className="text-center text-2xl md:text-4xl py-6">Nina Draws Images</h1>
               <button className="bg-gray-100 rounded text-black ml-4 px-2" onClick={toggleUpload}>
                 Upload New
               </button>
@@ -96,7 +96,7 @@ function Draw() {
                 </button>
               </div>
             )}
-            <section className="grid grid-cols-4 gap-4">
+            <section className="grid md:grid-cols-4 gap-4">
               {images.map((image) => (
                 <Card key={image.id} {...image} />
               ))}

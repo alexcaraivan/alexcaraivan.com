@@ -18,8 +18,8 @@ function Blog({ posts }) {
   return (
     user && (
       <Layout>
-        <main className="container mx-auto">
-          <h1 className="text-5xl font-bold font-serif text-primary tracking-wide pt-12 mb-6">
+        <main className="container mx-auto px-8">
+          <h1 className="text-2xl md:text-4xl font-bold font-serif text-primary tracking-wide pt-12 mb-6">
             All Posts
           </h1>
 

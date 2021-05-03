@@ -10,7 +10,7 @@ const Navigation = () => {
       <nav className="" role="navigation">
         <div className="container mx-auto p-4 md:px-0 flex flex-wrap items-center md:flex-nowrap md:justify-between">
           <div className="mr-4 md:mr-8">
-            <a href="/">
+            <a href="/home">
               <img src="/images/logo.png" className="w-10" />
             </a>
           </div>
@@ -23,7 +23,6 @@ const Navigation = () => {
             </button>
           </div>
           <div className="flex flex-col md:flex-row md:items-center">
-            <a href="/">Home</a>
             <a href="/blog" className="px-6">
               Blog
             </a>

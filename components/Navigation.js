@@ -22,6 +22,7 @@ const Navigation = () => {
               Blog
             </a>
             <a href="/draw">Draw</a>
+            <a href="/work">Work</a>
           </div>
         </div>
       </nav>

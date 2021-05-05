@@ -49,6 +49,9 @@ const Navigation = () => {
             <a href="/work" className="px-4 py-2">
               Work
             </a>
+            <a href="/today" className="px-4 py-2">
+              Today
+            </a>
             <a onClick={() => signout()} className="cursor-pointer pl-4 py-2">
               <FiLogOut />
             </a>

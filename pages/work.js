@@ -77,6 +77,16 @@ function Work() {
       });
   }, []);
 
+  useEffect(() => {
+    if (!overtime.length) {
+      return;
+    }
+    const lastOne = overtimes[overtimes.length - 1];
+    if (lastOne.x === formatDate(new Date())) {
+      edit(lastOne);
+    }
+  }, [overtime]);
+
   const handleChange = (evt) => setHours(parseInt(evt.target.value));
 
   const addHours = () => {

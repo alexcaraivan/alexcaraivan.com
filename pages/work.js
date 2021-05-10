@@ -81,7 +81,7 @@ function Work() {
     if (!overtime.length) {
       return;
     }
-    const lastOne = overtimes[overtimes.length - 1];
+    const lastOne = overtime[overtime.length - 1];
     if (lastOne.x === formatDate(new Date())) {
       edit(lastOne);
     }

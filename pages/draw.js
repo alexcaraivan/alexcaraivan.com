@@ -65,10 +65,6 @@ function Draw() {
   return (
     user && (
       <Layout>
-        <script
-          src="https://widget.cloudinary.com/v2.0/global/all.js"
-          type="text/javascript"
-        ></script>
         <CloudinaryContext cloudName={cloudName}>
           <div className="container mx-auto">
             <div className="flex items-center justify-center">
